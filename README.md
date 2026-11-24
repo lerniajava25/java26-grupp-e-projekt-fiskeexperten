@@ -1,2 +1,2 @@
-# java26-grupp-e-projekt-fiskeexperten
-En fiskekarta
+# Fiskeexperten
+En fiskekarta med AI-analys av fiskebilder

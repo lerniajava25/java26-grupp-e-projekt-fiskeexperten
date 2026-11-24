@@ -58,7 +58,10 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -163,6 +166,23 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>io.github.4ndreidev</groupId>
+                <artifactId>tailwind-maven-plugin</artifactId>
+                <version>1.2.0</version>
+                <configuration>
+                    <inputFile>${project.basedir}/src/main/resources/templates/input.css</inputFile>
+                    <outputFile>${project.basedir}/src/main/resources/static/css/output.css</outputFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
