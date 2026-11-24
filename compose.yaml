@@ -12,11 +12,28 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U appuser -d gis"]
+      test: [ "CMD-SHELL", "pg_isready -U appuser -d gis" ]
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 30s
+  garaged:
+    build:
+      context: ./garage
+      dockerfile: Containerfile
+    restart: unless-stopped
+    ports:
+      - "3900:3900"
+      - "3901:3901"
+      - "3902:3902"
+      - "3903:3903"
+    volumes:
+      - ./garage/garage.toml:/etc/garage.toml
+    healthcheck:
+      test: [ "CMD", "garage", "status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   pgdata:

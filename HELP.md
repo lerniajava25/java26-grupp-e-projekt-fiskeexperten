@@ -35,7 +35,8 @@ The following guides illustrate how to use some features concretely:
 This project contains a Docker Compose file named `compose.yaml`.
 In this file, the following services have been defined:
 
-* postgres: [`postgres:latest`](https://hub.docker.com/_/postgres)
+* postgis: [`postgis:17-3.5`](https://hub.docker.com/_/postgis)
+* garaged: [`garage:latest`](https://hub.docker.com/r/garagehq/garage)
 
 Please review the tags of the used images and set them to the same as you're running in production.
 
