@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
+<head><th:block th:replace="~{fragments/layout :: head('Karta & fångster', 'Se demonstrationsfångster på kartan.')}"></th:block></head>
+<body>
+<div id="page-content" class="min-h-screen">
+    <header class="sticky top-0 z-20 flex items-center gap-6 bg-lake px-6 py-4 text-lake-foreground">
+        <div class="flex items-center gap-2 font-semibold"><svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12c2.5-4 8.5-6 13-2l3-2v8l-3-2c-4.5 4-10.5 2-13-2Z"/><path d="M6.5 12 2 8v8l4.5-4ZM16 11h.01"/></svg> FiskeExperten</div>
+        <nav aria-label="Huvudmeny" class="hidden gap-5 text-sm sm:flex"><span>Karta</span><span class="opacity-60">Mina fångster (inte tillgängligt)</span><span class="opacity-60">Om (inte tillgängligt)</span></nav>
+        <span class="ml-auto text-sm opacity-80">Logga ut (inte tillgängligt)</span>
+    </header>
+    <div class="bg-secondary px-6 py-2 text-center text-sm text-secondary-foreground">Demonstration: kartan är illustrerad och fångsterna är exempel.</div>
+    <section aria-label="Illustrerad karta med demonstrationsfångster" class="relative h-[60vh] overflow-hidden bg-land">
+        <svg aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none" class="absolute inset-0 h-full w-full text-water">
+            <path fill="currentColor" d="M10 30 Q25 20 40 35 T60 40 Q75 30 85 45 Q80 60 65 58 Q50 75 35 65 Q15 60 10 30Z"/>
+            <path fill="currentColor" d="M60 10 Q70 5 80 15 Q78 25 68 22Z"/>
+            <path fill="none" stroke="currentColor" stroke-width=".8" d="M0 80 Q30 70 50 85 T100 75"/>
+        </svg>
+        <button th:each="catch : ${catches}" type="button" data-catch-select th:attr="data-catch-id=${catch.id},aria-label=|Visa ${catch.species} från ${catch.location}|,aria-pressed=${catch.id == 1}" th:style="|left:${catch.mapX}%; top:${catch.mapY}%;|" class="absolute -translate-x-1/2 -translate-y-full text-accent drop-shadow-lg transition hover:scale-110">
+            <svg aria-hidden="true" class="h-10 w-10 fill-accent stroke-lake" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5" fill="none"/></svg>
+        </button>
+        <div th:each="catch : ${catches}" data-catch-popup th:attr="data-catch-id=${catch.id},hidden=${catch.id != 1} ? 'hidden' : null" th:style="|left:${catch.mapX}%; top:${catch.mapY}%;|" class="absolute z-10 w-60 -translate-x-1/2 translate-y-3 overflow-hidden rounded-2xl bg-card shadow-soft">
+            <div class="flex h-28 items-center justify-center bg-gradient-to-br text-lake-foreground" th:classappend="${catch.colorVariant == 'one' ? 'from-primary to-lake-light' : catch.colorVariant == 'two' ? 'from-accent to-primary' : catch.colorVariant == 'three' ? 'from-lake-light to-lake' : 'from-primary to-accent'}"><svg aria-hidden="true" class="h-12 w-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12c2.5-4 8.5-6 13-2l3-2v8l-3-2c-4.5 4-10.5 2-13-2Z"/><path d="M6.5 12 2 8v8l4.5-4ZM16 11h.01"/></svg></div>
+            <div class="p-3">
+                <div class="flex items-center justify-between"><h3 class="text-lg font-bold" th:text="${catch.species}">Gädda</h3><button type="button" data-close-popup aria-label="Stäng fångstinformationen" class="rounded p-1">✕</button></div>
+                <p class="text-sm text-muted-foreground" th:text="|${catch.weight} · ${catch.length} · ${catch.caughtAt}|"></p>
+                <p class="mt-2 text-sm text-muted-foreground">Demonstrationsfångst</p>
+            </div>
+        </div>
+        <button type="button" data-open-panel class="absolute bottom-6 right-6 flex items-center gap-2 rounded-full bg-accent px-5 py-3 font-semibold text-accent-foreground shadow-soft transition hover:scale-105"><span aria-hidden="true" class="text-xl">+</span> Ny fångst</button>
+    </section>
+    <section class="mx-auto max-w-6xl p-6">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+            <div><h2 class="text-3xl font-bold">Alla fångster</h2><p class="text-muted-foreground" th:text="|${#lists.size(catches)} demonstrationsfångster|"></p></div>
+            <div><label for="catch-search" class="block text-sm text-muted-foreground">Sökning är inte tillgänglig</label><div class="flex items-center gap-2 rounded-xl border border-input bg-card px-3"><svg aria-hidden="true" class="h-4 w-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><input id="catch-search" type="search" placeholder="Sök art eller plats" disabled class="bg-transparent py-2 outline-none"></div></div>
+        </div>
+        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <article th:each="catch : ${catches}" class="overflow-hidden rounded-2xl bg-card shadow-soft transition hover:-translate-y-1">
+                <button type="button" data-catch-select th:attr="data-catch-id=${catch.id},aria-label=|Visa ${catch.species} från ${catch.location}|,aria-pressed=${catch.id == 1}" class="block w-full text-left">
+                    <div class="flex h-36 items-center justify-center bg-gradient-to-br text-lake-foreground" th:classappend="${catch.colorVariant == 'one' ? 'from-primary to-lake-light' : catch.colorVariant == 'two' ? 'from-accent to-primary' : catch.colorVariant == 'three' ? 'from-lake-light to-lake' : 'from-primary to-accent'}"><svg aria-hidden="true" class="h-14 w-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12c2.5-4 8.5-6 13-2l3-2v8l-3-2c-4.5 4-10.5 2-13-2Z"/><path d="M6.5 12 2 8v8l4.5-4ZM16 11h.01"/></svg></div>
+                    <div class="p-4"><div class="flex justify-between"><h3 class="text-xl font-bold" th:text="${catch.species}"></h3><span class="text-sm text-muted-foreground" th:text="${catch.caughtAt}"></span></div><p class="mt-1 text-sm" th:text="|${catch.weight} · ${catch.length}|"></p><p class="mt-2 text-sm text-muted-foreground" th:text="${catch.location}"></p></div>
+                </button>
+            </article>
+        </div>
+    </section>
+</div>
+<th:block th:replace="~{catch-form :: catchForm}"></th:block>
+<script th:src="@{/js/karta.js}" defer></script>
+</body>
+</html>
