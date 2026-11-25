@@ -34,3 +34,6 @@ build/
 
 # TailwindCSS
 tailwindcss-linux-x64
+
+# Local secrets
+.env

@@ -1,22 +1,41 @@
 services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: fiskeexperten-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   postgis:
     image: postgis/postgis:17-3.5
     container_name: postgis-db
     environment:
-      POSTGRES_DB: gis
-      POSTGRES_USER: appuser
-      POSTGRES_PASSWORD: byt_till_ett_starkt_losenord
+      POSTGRES_DB: ${POSTGIS_DB}
+      POSTGRES_USER: ${POSTGIS_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "127.0.0.1:5432:5432"
+      - "127.0.0.1:${POSTGIS_PORT}:5432"
     shm_size: "256mb"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U appuser -d gis" ]
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 30s
+
   garaged:
     build:
       context: ./garage
@@ -37,3 +56,4 @@ services:
 
 volumes:
   pgdata:
+  postgres_data:
