@@ -1,4 +1,4 @@
-package org.example.fiskeexperten;
+package org.example.fiskeexperten.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

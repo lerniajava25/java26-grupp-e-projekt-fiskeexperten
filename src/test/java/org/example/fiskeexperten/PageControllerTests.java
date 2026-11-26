@@ -1,5 +1,7 @@
 package org.example.fiskeexperten;
 
+import org.example.fiskeexperten.controller.PageController;
+import org.example.fiskeexperten.security.SecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;

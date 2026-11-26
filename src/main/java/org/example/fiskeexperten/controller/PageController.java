@@ -1,5 +1,6 @@
-package org.example.fiskeexperten;
+package org.example.fiskeexperten.controller;
 
+import org.example.fiskeexperten.model.DemoCatch;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

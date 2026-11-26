@@ -1,6 +1,7 @@
 /*noinspection CssUnknownTarget*/
 @import "tailwindcss" source(none);
-@source ".";
+/*@source ".";*/
+@source "../../templates";
 
 :root {
     color-scheme: light;
