@@ -1,4 +1,4 @@
-package org.example.fiskeexperten;
+package org.example.fiskeexperten.model;
 
 public record DemoCatch(
         int id,

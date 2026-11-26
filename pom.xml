@@ -171,7 +171,7 @@
                 <artifactId>tailwind-maven-plugin</artifactId>
                 <version>1.2.0</version>
                 <configuration>
-                    <inputFile>${project.basedir}/src/main/resources/templates/input.css</inputFile>
+                    <inputFile>src/main/resources/static/css/input.css</inputFile>
                     <outputFile>${project.basedir}/src/main/resources/static/css/output.css</outputFile>
                 </configuration>
                 <executions>
